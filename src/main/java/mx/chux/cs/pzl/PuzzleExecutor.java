@@ -1,20 +1,24 @@
 package mx.chux.cs.pzl;
 
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PuzzleExecutor<T> {
 
-    public static <T> PuzzleExecutor<T> from(final PuzzleSolution<T> puzzle) {
+    public static <T> PuzzleExecutor<T> from(final Puzzle<T> puzzle) {
         return new PuzzleExecutor<T>(puzzle);
     }
 
-    final PuzzleSolution<T> puzzle;
+    private final Puzzle<T> puzzle;
+    private final AtomicInteger ticker;
 
-    private PuzzleExecutor(final PuzzleSolution<T> puzzle) {
+    private PuzzleExecutor(final Puzzle<T> puzzle) {
         this.puzzle = puzzle;
+        this.ticker = new AtomicInteger(0);
     }
 
     public T execute() {
+        this.puzzle.setTicker(this.ticker);
         return this.puzzle.optimalSolution();
     }
 
@@ -22,7 +26,7 @@ public class PuzzleExecutor<T> {
         final Instant start = Instant.now();
         final T solution = execute();
         final Instant finish = Instant.now();
-        return TimedPuzzleSolution.from(solution, start, finish);
+        return TimedPuzzleSolution.from(solution, this.ticker.get(), start, finish);
     }
 
 }
