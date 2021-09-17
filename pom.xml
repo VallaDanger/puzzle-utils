@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>mx.chux.cs.pzl.arrays</groupId>
+    <groupId>mx.chux.cs.pzl</groupId>
     <artifactId>puzzle-utils</artifactId>
     <version>1.0.0</version>
 
